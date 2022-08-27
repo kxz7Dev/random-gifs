@@ -1,20 +1,24 @@
 const { MessageEmbed } = require("discord.js");
 module.exports = {
-    name: "Ping",
+    name: "ping",
     description: 'Veja o Ping do Bot',
-    options: [],
     run: async (client, interaction) => {
-
+        
+        let color = getPingColor(client.ws.ping)
         const embed = new MessageEmbed()
-            .setTitle(":ping_pong: Pong!")
-            .setDescription(`Ping do Bot: ${client.ws.ping}ms!`)
-
-        if (client.ws.ping < 60) embed.setColor("GREEN")
-        else if (client.ws.ping > 60 && client.ws.ping < 120) embed.setColor("YELLOW")
-        else if (client.ws.ping > 120) embed.setColor("RED")
-
-
+        .setTitle(":ping_pong: Pong!")
+        .setDescription(`Ping do Bot: ${client.ws.ping}ms!`)
+        .setColor(color)
+        
         interaction.reply({ embeds: [embed] });
 
     }
 };
+
+function getPingColor(ping) {
+    if (ping < 60) return "GREEN"
+    else if (ping > 60 && ping < 120) return "YELLOW"
+    else if (ping > 120) return "RED"
+    
+    return "BLACK"
+}
