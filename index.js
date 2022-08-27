@@ -8,6 +8,7 @@ const {token} = require("./config.json")
 global.client = client;
 client.commands = (global.commands = []);
 
+function handlers() {
 fs.readdir("./commands/", (err, files) => {
     if (err) throw err;
 
@@ -38,6 +39,9 @@ fs.readdir("./events/", (_err, files) => {
     });
 });
 
+}
+
+handlers()
 client.on("ready", async () => {
 
     console.log("Random Gifs Online");
@@ -68,21 +72,25 @@ process.on('uncaughtExceptionMonitor', (error, origin) => {
 
  //////////////    ANT MENSAGENS EM CHAT DE IMAGENS  //////////////
 
+const c = {
+    status: false,
+    channelId: "id do canal"
+}
 
- /*
 client.on("message", m => {
-    if (m.channel.id !== "967178470025203763") { // girl-gif
+if(c.status === true) {
+        if (m.channel.id !== c.channelId) { // girl-gif
       return;
     }
     if (m.author.id === m.guild.ownerID && client.user.id) return;
-    if (m.attachments.size < 1) {
-      m.delete()
-    }
-  });
-*/
+    if (m.attachments.size < 1) m.delete().catch(() => m.channel.send({ content: 'Sem imagens aqui, obs: não foi possivel apagar a imagem, peça que um admin mude minhas permissões!'}))
+  
+}
+});
 
 
+function login(botToken) {
+client.login(botToken);
+}
 
-
-
-client.login(token);
+login(token)
